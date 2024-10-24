@@ -1,17 +1,62 @@
+------------------------------------------------------------------------
+
 ---
-title: "R Notebook"
+title: "Proyecto"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+# Primera Entrega Parcial
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+El dataset que he elegido es “Spotify Most Streamed Songs” que contiene información sobre las canciones más reproducidas en Spotify. Cada columna representa una canción, con las siguientes características:
 
-```{install.packages("readr")}
+-   track_name: Nombre de la canción.
+
+-   artist(s)\_name: Nombre(s) del/los artista(s) de la canción
+
+-   artist_count: Número de artistas que han participado en la canción
+
+-   released_year, released_month,released_day:Fecha de lanzamiento.
+
+-   in_spotify_playlists: Número de playlists de Spotify en las que aparece la canción.
+
+-   in_spotify_charts: Número de veces que la canción aparece en las listas de spotify.
+
+-   streams: Número total de reproducciones en Spotify.
+
+-   in_apple_playlists: Número de Playlist de Apple Music en las que aparece la canción.
+
+-   danceability\_%, energy\_%, instrumentalness\_% ,etc: Son atributos de audio que describen características de la cancion en porcentajes ( la bailabilidad, instrumentalidad, energía, etc).
+
+Hay más columnas pero no creo que las vaya a utilizar para el resto del análisis.
+
+## Objetivo del análisis
+
+El objetivo para este dataset, será analizar tendencias y características de las canciones más reproducidas. Algunas preguntas que nos podríamos hacer son:
+
+¿Qué canciones son las más populares?
+
+¿Quiénes son los artistas que tienen más canciones entre las populares?
+
+¿Habrá alguna relación entre las características del audio y el éxito de reproducciones (streams)?
+
+¿Cómo influye el número de listas de reproducción en el éxito de una canción en base a las reproducciones(streams)? 
+
+Podremos identificar a los artistas más reproducidos en base a un análisis de las canciones más populares.
+
+Podremos saber si por ejemplo una bailabilidad alta o una energía alta fueran indicativos de que una canción sea más o menos atractiva para el público.
+
+Analizar si una canción que está en más listas, también tiene más reproducciones.
+
+# Código
+
+Combinamos las columnas de released_year, released_month y released_day en una sola llamada released_date en formato Date.
+
+```{r}
+install.packages("readr")
 library(dplyr)
 library(readr)
 
-spotify_data <- read_csv("C:\\Users\\danie\\Desktop\\2do Año\\UNIT 24 - ADVANCED PROGRAMMING FOR DATA ANALYSIS\\Spotify Most Streamed Songs.csv")
+spotify_data <- read_csv("Spotify Most Streamed Songs.csv")
 
 spotify_data$release_date <- as.Date(paste(spotify_data$released_year, spotify_data$released_month, spotify_data$released_day, sep = "-"))
 
@@ -23,9 +68,3 @@ head(spotify_data)
 View(spotify_data)
 
 ```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

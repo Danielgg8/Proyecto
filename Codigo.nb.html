@@ -11,7 +11,7 @@
 
 
 
-<title>R Notebook</title>
+<title>Proyecto</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,42 +1746,139 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">R Notebook</h1>
+<h1 class="title toc-ignore">Proyecto</h1>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-Notebook. When you execute code within the notebook, the results appear
-beneath the code.</p>
-<p>Try executing this chunk by clicking the <em>Run</em> button within
-the chunk or by placing your cursor inside it and pressing
-<em>Ctrl+Shift+Enter</em>.</p>
-<p>```{install.packages(“readr”)} library(dplyr) library(readr)</p>
-<p>spotify_data &lt;- read_csv(“C:\Users\danie\Desktop\2do Año\UNIT 24 -
-ADVANCED PROGRAMMING FOR DATA ANALYSIS\Spotify Most Streamed
-Songs.csv”)</p>
-<p>spotify_data<span class="math inline">\(release_date &lt;-
-as.Date(paste(spotify_data\)</span>released_year, spotify_data<span class="math inline">\(released_month, spotify_data\)</span>released_day,
-sep = “-”))</p>
-<p>spotify_data<span class="math inline">\(released_year &lt;- NULL
-spotify_data\)</span>released_month &lt;- NULL spotify_data$released_day
-&lt;- NULL</p>
-<p>head(spotify_data) View(spotify_data)</p>
-<p>```</p>
-<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the
-toolbar or by pressing <em>Ctrl+Alt+I</em>.</p>
-<p>When you save the notebook, an HTML file containing the code and
-output will be saved alongside it (click the <em>Preview</em> button or
-press <em>Ctrl+Shift+K</em> to preview the HTML file).</p>
-<p>The preview shows you a rendered HTML copy of the contents of the
-editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not
-run any R code chunks. Instead, the output of the chunk when it was last
-run in the editor is displayed.</p>
+<hr />
+<div id="primera-entrega-parcial" class="section level1">
+<h1>Primera Entrega Parcial</h1>
+<p>El dataset que he elegido es “Spotify Most Streamed Songs” que
+contiene información sobre las canciones más reproducidas en Spotify.
+Cada columna representa una canción, con las siguientes
+características:</p>
+<ul>
+<li><p>track_name: Nombre de la canción.</p></li>
+<li><p>artist(s)_name: Nombre(s) del/los artista(s) de la
+canción</p></li>
+<li><p>artist_count: Número de artistas que han participado en la
+canción</p></li>
+<li><p>released_year, released_month,released_day:Fecha de
+lanzamiento.</p></li>
+<li><p>in_spotify_playlists: Número de playlists de Spotify en las que
+aparece la canción.</p></li>
+<li><p>in_spotify_charts: Número de veces que la canción aparece en las
+listas de spotify.</p></li>
+<li><p>streams: Número total de reproducciones en Spotify.</p></li>
+<li><p>in_apple_playlists: Número de Playlist de Apple Music en las que
+aparece la canción.</p></li>
+<li><p>danceability_%, energy_%, instrumentalness_% ,etc: Son atributos
+de audio que describen características de la cancion en porcentajes ( la
+bailabilidad, instrumentalidad, energía, etc).</p></li>
+</ul>
+<p>Hay más columnas pero no creo que las vaya a utilizar para el resto
+del análisis.</p>
+<div id="objetivo-del-análisis" class="section level2">
+<h2>Objetivo del análisis</h2>
+<p>El objetivo para este dataset, será analizar tendencias y
+características de las canciones más reproducidas. Algunas preguntas que
+nos podríamos hacer son:</p>
+<p>¿Qué canciones son las más populares?</p>
+<p>¿Quiénes son los artistas que tienen más canciones entre las
+populares?</p>
+<p>¿Habrá alguna relación entre las características del audio y el éxito
+de reproducciones (streams)?</p>
+<p>¿Cómo influye el número de listas de reproducción en el éxito de una
+canción en base a las reproducciones(streams)? </p>
+<p>Podremos identificar a los artistas más reproducidos en base a un
+análisis de las canciones más populares.</p>
+<p>Podremos saber si por ejemplo una bailabilidad alta o una energía
+alta fueran indicativos de que una canción sea más o menos atractiva
+para el público.</p>
+<p>Analizar si una canción que está en más listas, también tiene más
+reproducciones.</p>
+</div>
+</div>
+<div id="código" class="section level1">
+<h1>Código</h1>
+<p>Combinamos las columnas de released_year, released_month y
+released_day en una sola llamada released_date en formato Date.</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhcInJlYWRyXCIpXG5gYGAifQ== -->
+<pre class="r"><code>install.packages(&quot;readr&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV0FSTklORzogUnRvb2xzIGlzIHJlcXVpcmVkIHRvIGJ1aWxkIFIgcGFja2FnZXMgYnV0IGlzIG5vdCBjdXJyZW50bHkgaW5zdGFsbGVkLiBQbGVhc2UgZG93bmxvYWQgYW5kIGluc3RhbGwgdGhlIGFwcHJvcHJpYXRlIHZlcnNpb24gb2YgUnRvb2xzIGJlZm9yZSBwcm9jZWVkaW5nOlxuXG5odHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvUnRvb2xzL1xuSW5zdGFsbGluZyBwYWNrYWdlIGludG8g4oCYQzovVXNlcnMvZGFuaWUvQXBwRGF0YS9Mb2NhbC9SL3dpbi1saWJyYXJ5LzQuM+KAmVxuKGFzIOKAmGxpYuKAmSBpcyB1bnNwZWNpZmllZClcbnByb2JhbmRvIGxhIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvNC4zL3JlYWRyXzIuMS41LnppcCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vemlwJyBsZW5ndGggMTE4ODM5NCBieXRlcyAoMS4xIE1CKVxuZG93bmxvYWRlZCAxLjEgTUJcbiJ9 -->
+<pre><code>WARNING: Rtools is required to build R packages but is not currently installed. Please download and install the appropriate version of Rtools before proceeding:
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLg0KDQpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ3RybCtTaGlmdCtFbnRlciouDQoNCmBgYHtpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpfQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkocmVhZHIpDQoNCnNwb3RpZnlfZGF0YSA8LSByZWFkX2NzdigiQzpcXFVzZXJzXFxkYW5pZVxcRGVza3RvcFxcMmRvIEHDsW9cXFVOSVQgMjQgLSBBRFZBTkNFRCBQUk9HUkFNTUlORyBGT1IgREFUQSBBTkFMWVNJU1xcU3BvdGlmeSBNb3N0IFN0cmVhbWVkIFNvbmdzLmNzdiIpDQoNCnNwb3RpZnlfZGF0YSRyZWxlYXNlX2RhdGUgPC0gYXMuRGF0ZShwYXN0ZShzcG90aWZ5X2RhdGEkcmVsZWFzZWRfeWVhciwgc3BvdGlmeV9kYXRhJHJlbGVhc2VkX21vbnRoLCBzcG90aWZ5X2RhdGEkcmVsZWFzZWRfZGF5LCBzZXAgPSAiLSIpKQ0KDQpzcG90aWZ5X2RhdGEkcmVsZWFzZWRfeWVhciA8LSBOVUxMDQpzcG90aWZ5X2RhdGEkcmVsZWFzZWRfbW9udGggPC0gTlVMTA0Kc3BvdGlmeV9kYXRhJHJlbGVhc2VkX2RheSA8LSBOVUxMDQoNCmhlYWQoc3BvdGlmeV9kYXRhKQ0KVmlldyhzcG90aWZ5X2RhdGEpDQoNCmBgYA0KDQpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouDQoNCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ3RybCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLg0KDQpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuDQo=</div>
+https://cran.rstudio.com/bin/windows/Rtools/
+Installing package into ‘C:/Users/danie/AppData/Local/R/win-library/4.3’
+(as ‘lib’ is unspecified)
+probando la URL &#39;https://cran.rstudio.com/bin/windows/contrib/4.3/readr_2.1.5.zip&#39;
+Content type &#39;application/zip&#39; length 1188394 bytes (1.1 MB)
+downloaded 1.1 MB</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDigJhyZWFkcuKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcblxuVGhlIGRvd25sb2FkZWQgYmluYXJ5IHBhY2thZ2VzIGFyZSBpblxuXHRDOlxcVXNlcnNcXGRhbmllXFxBcHBEYXRhXFxMb2NhbFxcVGVtcFxcUnRtcFk1UEgxc1xcZG93bmxvYWRlZF9wYWNrYWdlc1xuIn0= -->
+<pre><code>package ‘readr’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\danie\AppData\Local\Temp\RtmpY5PH1s\downloaded_packages</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
+<pre class="r"><code>library(dplyr)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcblxuc3BvdGlmeV9kYXRhIDwtIHJlYWRfY3N2KFwiU3BvdGlmeSBNb3N0IFN0cmVhbWVkIFNvbmdzLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(readr)
+
+spotify_data &lt;- read_csv(&quot;Spotify Most Streamed Songs.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogOTUzIENvbHVtbnM6IDI14pSA4pSAIENvbHVtbiBzcGVjaWZpY2F0aW9uIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgFxuRGVsaW1pdGVyOiBcIixcIlxuY2hyICAoNik6IHRyYWNrX25hbWUsIGFydGlzdChzKV9uYW1lLCBzdHJlYW1zLCBrZXksIG1vZGUsIGNvdmVyX3VybFxuZGJsICgxNyk6IGFydGlzdF9jb3VudCwgcmVsZWFzZWRfeWVhciwgcmVsZWFzZWRfbW9udGgsIHJlbGVhc2VkX2RheSwgaW5fc3BvdGlmeV9wbGF5bGlzdHMsIC4uLlxubnVtICAoMik6IGluX2RlZXplcl9wbGF5bGlzdHMsIGluX3NoYXphbV9jaGFydHNcbuKEuSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbuKEuSBTcGVjaWZ5IHRoZSBjb2x1bW4gdHlwZXMgb3Igc2V0IGBzaG93X2NvbF90eXBlcyA9IEZBTFNFYCB0byBxdWlldCB0aGlzIG1lc3NhZ2UuXG4ifQ== -->
+<pre><code>Rows: 953 Columns: 25── Column specification ───────────────────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr  (6): track_name, artist(s)_name, streams, key, mode, cover_url
+dbl (17): artist_count, released_year, released_month, released_day, in_spotify_playlists, ...
+num  (2): in_deezer_playlists, in_shazam_charts
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BvdGlmeV9kYXRhJHJlbGVhc2VfZGF0ZSA8LSBhcy5EYXRlKHBhc3RlKHNwb3RpZnlfZGF0YSRyZWxlYXNlZF95ZWFyLCBzcG90aWZ5X2RhdGEkcmVsZWFzZWRfbW9udGgsIHNwb3RpZnlfZGF0YSRyZWxlYXNlZF9kYXksIHNlcCA9IFwiLVwiKSlcblxuc3BvdGlmeV9kYXRhJHJlbGVhc2VkX3llYXIgPC0gTlVMTFxuc3BvdGlmeV9kYXRhJHJlbGVhc2VkX21vbnRoIDwtIE5VTExcbnNwb3RpZnlfZGF0YSRyZWxlYXNlZF9kYXkgPC0gTlVMTFxuXG5oZWFkKHNwb3RpZnlfZGF0YSlcbmBgYCJ9 -->
+<pre class="r"><code>spotify_data$release_date &lt;- as.Date(paste(spotify_data$released_year, spotify_data$released_month, spotify_data$released_day, sep = &quot;-&quot;))
+
+spotify_data$released_year &lt;- NULL
+spotify_data$released_month &lt;- NULL
+spotify_data$released_day &lt;- NULL
+
+head(spotify_data)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MjMsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAyMyJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwVldTMi9iUmhDbUxma2hOMDZVMm9CNzZJRkEyc0FHYkprUGlhUjZpZnlRNnlSMjdGcCtwRUFMWmJVY3lZd3BraUFwT2ZiSk9mWlFJSmVpMS9TV2M5RnprWi9RTnYwQi9Razl0MENjbFhaV0ZtbWdoUVVRMzg0Mzg4M083aXkxM0Z0L3FrODluWklrS1NObE14a3BNOGFHMHRqQi9zYVNKVW5aVVdhTVNGa3AxOE1YTEdpR0RlYllrMmZQT0RydTFhQUxuanpmQkJJWDVDMFN4LzZDUEY5OUViZ09kV0w1RU1MQ0FvWm10MWEyVm5BODBTWHR3QWtCelZ0cllRZGN1ZFpwdHlGRTd2YlJabld2S3RjMnEvS1hPOVVhc3BPMUlIUzhtRVVsNjhqM3AxNlVIM1c4bHZ6WTkwK1EvMmo3N0FUa2ZmOFV3a2drM25HZHJrUGtQZDhPblpZdlN0Z25aNjRmeXJWVHB4a2psMXNsdHJ6YThid3pKTzZ1a3k0c3ltdmd4U0Z4R1VJdlg2K01pc1IvRC83K2J4UnhBOTNMVGM3L09Nbnhoejg1L3Zvenh6Zm5ISCthVGVvYXp6aS9pWG0vNFprclg2UDlFUEh3cmRBTmIxZE9MYXE2cFpxS1BpQjAzVlFOelRLdUloUkYwY3RtVVJDV29saEZoWWtFb1N1NnBodTZwZzBrbG00cWhxWVhCMVZXTDVKVkhxSDlMZG9IaUx1REtya3VDRGhmeDNqbnJ5UStlODN4K2V1a2JnUGp0NU9ycjlSeGR3N1FQcFNTdXM4d2ZqR0Y4NGdGUkRXbCsrNDN6cDlpWGQrLzRmaFM1bmorQ3ZsWFNaMm81d2p6RXJRQnNTSDR3ZnJ5MGxYM1JsWnhNTHAyVDFBYllyQ1NIdlNDa3ZxeGJmTGNEMjlxT0Y3YUkxYXpqOVYraGJ2NzhJTGpZOFRkNUdvSHVrUGtuMkJjQmZPSTdwbUl1eGRKM1Q3T3M0ZTZSNGg3R0MvcTJVN045d0Q1VHhHeG01WDdpS0xyZWxJbi9jK3Zzbk9ScHZoOE12ckY2Ukx6MzAraG5OTGxrUmY0Q1dJaFpWc0RYVjRhZXJlZitMRzg0WGM4RzRuS2NSd0gwUmZMeTA0aG9yWlhvUDZ5MHlZdFdDWU53elJVdzJZdnV0TFFURjB4U29aZG9tQ3BPaVU2cFVYbU4wRXAzVFFQV0NXdFZDWXFKYUNWaVdXWDFhYW1sUFViMXdPbVpkSm1FNmltRUtJUnZXd1E1aTZhTjgxREdpVmFwcmFsV3NRMndOYWgzRENacmQ2NEhwMG9aVkltb0RmVkpsRVZqYXFxQW9iQzdrYmV1SGU4TTVVLy9uM2J4M2V6L1pOUitmMFh0SE9JMHhYZXQ4UWxPMFpkRWtYWVRVRm0xMG5jdTJYZXA0TTkwZ1lSUElma0ZMdVc2RW05NXhLWEhRbGpKNHJubzRWaDloWm42NVNkRW5IWnpUcGVQUXI4MkdtZTFRT1hYWVlzUUZ5WmQ0ZDg5SmlKaFdNaWlrTWdiV0Yrek9KSUVMaHdMY09kZ1NlaG4yRzBEWEFPNFRWRi9zcVZrUFQ0NkppY2szYVN6elNDdGhpZWdMaXhzMjNmSHV5RlRUd0twT0c0VG54Vy8xeThMbDNpQXVNSHhDUjRFTGF1QW00VHRrMVI3RkFQb21qQXNxV3l0WGZhN0ZPQXVBblBGUHU4Z0FRekhRVUE5TmhKa0RucWQ5bmFPcUVybWhLQ0N5U0N1dDN2ZUtMYnVkQS9MWWlPVDdObnRIZXdMaTh2LytHQm81ZXBZelBGa3BCQ00rejEvUHJobWZDRDJQRTlsbXgwUnVML2NNUGlrVEJGM0dIZlFDeVR2VVNQTzk3SmtwcHlad0t2MVp1elQvSGZOSTdIaDhaenZJcU1xRlg4WVkyRDEySjdJdzYyU3hvZzlpUmpRMWUwZ1cxQmZ3Y0svUzlBc1U3R1JvWFlaMDBRRFBWZHdmUlhMcjMvQUxXTGRHZnBDZ0FBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["track_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["artist(s)_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["artist_count"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["in_spotify_playlists"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["in_spotify_charts"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["streams"],"name":[6],"type":["chr"],"align":["left"]},{"label":["in_apple_playlists"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["in_apple_charts"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["in_deezer_playlists"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["in_deezer_charts"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["in_shazam_charts"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["bpm"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["key"],"name":[13],"type":["chr"],"align":["left"]},{"label":["mode"],"name":[14],"type":["chr"],"align":["left"]},{"label":["danceability_%"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["valence_%"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["energy_%"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["acousticness_%"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["instrumentalness_%"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["liveness_%"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["speechiness_%"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["cover_url"],"name":[22],"type":["chr"],"align":["left"]},{"label":["release_date"],"name":[23],"type":["date"],"align":["right"]}],"data":[{"1":"Seven (feat. Latto) (Explicit Ver.)","2":"Latto, Jung Kook","3":"2","4":"553","5":"147","6":"141381703","7":"43","8":"263","9":"45","10":"10","11":"826","12":"125","13":"B","14":"Major","15":"80","16":"89","17":"83","18":"31","19":"0","20":"8","21":"4","22":"Not Found","23":"2023-07-14"},{"1":"LALA","2":"Myke Towers","3":"1","4":"1474","5":"48","6":"133716286","7":"48","8":"126","9":"58","10":"14","11":"382","12":"92","13":"C#","14":"Major","15":"71","16":"61","17":"74","18":"7","19":"0","20":"10","21":"4","22":"https://i.scdn.co/image/ab67616d0000b2730656d5ce813ca3cc4b677e05","23":"2023-03-23"},{"1":"vampire","2":"Olivia Rodrigo","3":"1","4":"1397","5":"113","6":"140003974","7":"94","8":"207","9":"91","10":"14","11":"949","12":"138","13":"F","14":"Major","15":"51","16":"32","17":"53","18":"17","19":"0","20":"31","21":"6","22":"https://i.scdn.co/image/ab67616d0000b273e85259a1cae29a8d91f2093d","23":"2023-06-30"},{"1":"Cruel Summer","2":"Taylor Swift","3":"1","4":"7858","5":"100","6":"800840817","7":"116","8":"207","9":"125","10":"12","11":"548","12":"170","13":"A","14":"Major","15":"55","16":"58","17":"72","18":"11","19":"0","20":"11","21":"15","22":"https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647","23":"2019-08-23"},{"1":"WHERE SHE GOES","2":"Bad Bunny","3":"1","4":"3133","5":"50","6":"303236322","7":"84","8":"133","9":"87","10":"15","11":"425","12":"144","13":"A","14":"Minor","15":"65","16":"23","17":"80","18":"14","19":"63","20":"11","21":"6","22":"https://i.scdn.co/image/ab67616d0000b273ab5c9cd818ad6ed3e9b79cd1","23":"2023-05-18"},{"1":"Sprinter","2":"Dave, Central Cee","3":"2","4":"2186","5":"91","6":"183706234","7":"67","8":"213","9":"88","10":"17","11":"946","12":"141","13":"C#","14":"Major","15":"92","16":"66","17":"58","18":"19","19":"0","20":"8","21":"24","22":"https://i.scdn.co/image/ab67616d0000b273e3a09a9ae3f1fa102c110e60","23":"2023-06-01"}],"options":{"columns":{"min":{},"max":[10],"total":[23]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhzcG90aWZ5X2RhdGEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>View(spotify_data)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+</div>
+
+<div id="rmd-source-code">LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCi0tLQ0KdGl0bGU6ICJQcm95ZWN0byINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMgUHJpbWVyYSBFbnRyZWdhIFBhcmNpYWwNCg0KRWwgZGF0YXNldCBxdWUgaGUgZWxlZ2lkbyBlcyDigJxTcG90aWZ5IE1vc3QgU3RyZWFtZWQgU29uZ3PigJ0gcXVlIGNvbnRpZW5lIGluZm9ybWFjacOzbiBzb2JyZSBsYXMgY2FuY2lvbmVzIG3DoXMgcmVwcm9kdWNpZGFzIGVuIFNwb3RpZnkuIENhZGEgY29sdW1uYSByZXByZXNlbnRhIHVuYSBjYW5jacOzbiwgY29uIGxhcyBzaWd1aWVudGVzIGNhcmFjdGVyw61zdGljYXM6DQoNCi0gICB0cmFja19uYW1lOiBOb21icmUgZGUgbGEgY2FuY2nDs24uDQoNCi0gICBhcnRpc3QocylcX25hbWU6IE5vbWJyZShzKSBkZWwvbG9zIGFydGlzdGEocykgZGUgbGEgY2FuY2nDs24NCg0KLSAgIGFydGlzdF9jb3VudDogTsO6bWVybyBkZSBhcnRpc3RhcyBxdWUgaGFuIHBhcnRpY2lwYWRvIGVuIGxhIGNhbmNpw7NuDQoNCi0gICByZWxlYXNlZF95ZWFyLCByZWxlYXNlZF9tb250aCxyZWxlYXNlZF9kYXk6RmVjaGEgZGUgbGFuemFtaWVudG8uDQoNCi0gICBpbl9zcG90aWZ5X3BsYXlsaXN0czogTsO6bWVybyBkZSBwbGF5bGlzdHMgZGUgU3BvdGlmeSBlbiBsYXMgcXVlIGFwYXJlY2UgbGEgY2FuY2nDs24uDQoNCi0gICBpbl9zcG90aWZ5X2NoYXJ0czogTsO6bWVybyBkZSB2ZWNlcyBxdWUgbGEgY2FuY2nDs24gYXBhcmVjZSBlbiBsYXMgbGlzdGFzIGRlIHNwb3RpZnkuDQoNCi0gICBzdHJlYW1zOiBOw7ptZXJvIHRvdGFsIGRlIHJlcHJvZHVjY2lvbmVzIGVuIFNwb3RpZnkuDQoNCi0gICBpbl9hcHBsZV9wbGF5bGlzdHM6IE7Dum1lcm8gZGUgUGxheWxpc3QgZGUgQXBwbGUgTXVzaWMgZW4gbGFzIHF1ZSBhcGFyZWNlIGxhIGNhbmNpw7NuLg0KDQotICAgZGFuY2VhYmlsaXR5XF8lLCBlbmVyZ3lcXyUsIGluc3RydW1lbnRhbG5lc3NcXyUgLGV0YzogU29uIGF0cmlidXRvcyBkZSBhdWRpbyBxdWUgZGVzY3JpYmVuIGNhcmFjdGVyw61zdGljYXMgZGUgbGEgY2FuY2lvbiBlbiBwb3JjZW50YWplcyAoIGxhIGJhaWxhYmlsaWRhZCwgaW5zdHJ1bWVudGFsaWRhZCwgZW5lcmfDrWEsIGV0YykuDQoNCkhheSBtw6FzIGNvbHVtbmFzIHBlcm8gbm8gY3JlbyBxdWUgbGFzIHZheWEgYSB1dGlsaXphciBwYXJhIGVsIHJlc3RvIGRlbCBhbsOhbGlzaXMuDQoNCiMjIE9iamV0aXZvIGRlbCBhbsOhbGlzaXMNCg0KRWwgb2JqZXRpdm8gcGFyYSBlc3RlIGRhdGFzZXQsIHNlcsOhIGFuYWxpemFyIHRlbmRlbmNpYXMgeSBjYXJhY3RlcsOtc3RpY2FzIGRlIGxhcyBjYW5jaW9uZXMgbcOhcyByZXByb2R1Y2lkYXMuIEFsZ3VuYXMgcHJlZ3VudGFzIHF1ZSBub3MgcG9kcsOtYW1vcyBoYWNlciBzb246DQoNCsK/UXXDqSBjYW5jaW9uZXMgc29uIGxhcyBtw6FzIHBvcHVsYXJlcz8NCg0Kwr9RdWnDqW5lcyBzb24gbG9zIGFydGlzdGFzIHF1ZSB0aWVuZW4gbcOhcyBjYW5jaW9uZXMgZW50cmUgbGFzIHBvcHVsYXJlcz8NCg0Kwr9IYWJyw6EgYWxndW5hIHJlbGFjacOzbiBlbnRyZSBsYXMgY2FyYWN0ZXLDrXN0aWNhcyBkZWwgYXVkaW8geSBlbCDDqXhpdG8gZGUgcmVwcm9kdWNjaW9uZXMgKHN0cmVhbXMpPw0KDQrCv0PDs21vIGluZmx1eWUgZWwgbsO6bWVybyBkZSBsaXN0YXMgZGUgcmVwcm9kdWNjacOzbiBlbiBlbCDDqXhpdG8gZGUgdW5hIGNhbmNpw7NuIGVuIGJhc2UgYSBsYXMgcmVwcm9kdWNjaW9uZXMoc3RyZWFtcyk/wqANCg0KUG9kcmVtb3MgaWRlbnRpZmljYXIgYSBsb3MgYXJ0aXN0YXMgbcOhcyByZXByb2R1Y2lkb3MgZW4gYmFzZSBhIHVuIGFuw6FsaXNpcyBkZSBsYXMgY2FuY2lvbmVzIG3DoXMgcG9wdWxhcmVzLg0KDQpQb2RyZW1vcyBzYWJlciBzaSBwb3IgZWplbXBsbyB1bmEgYmFpbGFiaWxpZGFkIGFsdGEgbyB1bmEgZW5lcmfDrWEgYWx0YSBmdWVyYW4gaW5kaWNhdGl2b3MgZGUgcXVlIHVuYSBjYW5jacOzbiBzZWEgbcOhcyBvIG1lbm9zIGF0cmFjdGl2YSBwYXJhIGVsIHDDumJsaWNvLg0KDQpBbmFsaXphciBzaSB1bmEgY2FuY2nDs24gcXVlIGVzdMOhIGVuIG3DoXMgbGlzdGFzLCB0YW1iacOpbiB0aWVuZSBtw6FzIHJlcHJvZHVjY2lvbmVzLg0KDQojIEPDs2RpZ28NCg0KQ29tYmluYW1vcyBsYXMgY29sdW1uYXMgZGUgcmVsZWFzZWRfeWVhciwgcmVsZWFzZWRfbW9udGggeSByZWxlYXNlZF9kYXkgZW4gdW5hIHNvbGEgbGxhbWFkYSByZWxlYXNlZF9kYXRlIGVuIGZvcm1hdG8gRGF0ZS4NCg0KYGBge3J9DQppbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KGRwbHlyKQ0KbGlicmFyeShyZWFkcikNCg0Kc3BvdGlmeV9kYXRhIDwtIHJlYWRfY3N2KCJTcG90aWZ5IE1vc3QgU3RyZWFtZWQgU29uZ3MuY3N2IikNCg0Kc3BvdGlmeV9kYXRhJHJlbGVhc2VfZGF0ZSA8LSBhcy5EYXRlKHBhc3RlKHNwb3RpZnlfZGF0YSRyZWxlYXNlZF95ZWFyLCBzcG90aWZ5X2RhdGEkcmVsZWFzZWRfbW9udGgsIHNwb3RpZnlfZGF0YSRyZWxlYXNlZF9kYXksIHNlcCA9ICItIikpDQoNCnNwb3RpZnlfZGF0YSRyZWxlYXNlZF95ZWFyIDwtIE5VTEwNCnNwb3RpZnlfZGF0YSRyZWxlYXNlZF9tb250aCA8LSBOVUxMDQpzcG90aWZ5X2RhdGEkcmVsZWFzZWRfZGF5IDwtIE5VTEwNCg0KaGVhZChzcG90aWZ5X2RhdGEpDQpWaWV3KHNwb3RpZnlfZGF0YSkNCg0KYGBgDQo=</div>
 
 
 
