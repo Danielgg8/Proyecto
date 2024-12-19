@@ -136,7 +136,7 @@ ggplot(top_10_artists, aes(x = reorder(`artist(s)_name`, total_streams), y = tot
 
 ```
 
-En este gráfico podemos obervar un mapa de calor en el que se visualiza la correlación entre las caracterísiticas de audio de las canciones mas reproducidad en Shopify y su número de reproducciones. Podemos observar que las características de audio como la bailabilidad o la energía no tienen una relación fuerte con el éxito de la canción en términos de reproducciones en Spotify
+En este gráfico podemos obervar un mapa de calor en el que se visualiza la correlación entre las caracterísiticas de audio de las canciones mas reproducidad en Shopify y su número de reproducciones.
 
 ```{r}
 library(dplyr)
@@ -170,6 +170,10 @@ ggplot(correlation_data, aes(Var1, Var2, fill = value)) +
 
 
 ```
+
+### Conclusión:
+
+Podemos observar que las características de audio como la bailabilidad o la energía no tienen una relación fuerte con el éxito de la canción en términos de reproducciones en Spotify
 
 Este análisis muestra cómo el número de listas de reproducción en Apple Music y Spotify se correlaciona con el número de reproducciones de las canciones. Para ello utilizamos dos gráficos de dispersión (Azul para Apple Music) (Verde para Spotify). He decidido utilizar este tipo de gráfico ya que podemos visualizar de manera clara la tendencia que siguen los puntos.
 
@@ -211,5 +215,142 @@ correlation_apple <- cor(spotify_data$in_apple_playlists, spotify_data$streams, 
 
 cat("Correlación entre in_spotify_playlists y streams:", correlation_spotify, "\n")
 cat("Correlación entre in_apple_playlists y streams:", correlation_apple, "\n")
+
+```
+
+### Conclusión:
+
+En los gráficos se puede observar que cuando las canciones aparecen en más listas, sus reproducciones también aumnetan.
+
+En este gráfico voy a analizar si el mes de lanzamiento de la canción, influye en el número de reproducciones.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+
+# Crear columna de fecha
+spotify_data <- spotify_data %>%
+  mutate(
+    release_date = make_date(released_year, released_month, released_day),
+    month = month(release_date, label = TRUE)
+  )
+
+# Sumar las reproducciones por mes
+monthly_streams <- spotify_data %>%
+  group_by(month) %>%
+  summarise(total_streams = sum(streams, na.rm = TRUE))
+
+# Gráfico de la suma de reproducciones por mes
+ggplot(monthly_streams, aes(x = month, y = total_streams)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Reproducciones Totales por Mes de Lanzamiento",
+    x = "Mes de Lanzamiento",
+    y = "Total de Reproducciones"
+  ) +
+  theme_minimal()
+
+```
+
+### **Conclusiones:**
+
+1.  **Meses con más reproducciones:**
+
+    Si los meses de enero y mayo tienen las barras más altas en el gráfico, se puede concluir que estas fechas tienen un mayor volumen de reproducciones, lo que podría sugerir que las canciones lanzadas en esos meses tienden a ser más populares o tienen mayor visibilidad. Esto podría estar relacionado con:
+
+    Estrategias de marketing, donde los artistas lanzan sus canciones en estos meses porque hay un mayor enfoque o competencia menos intensa.
+
+    Tendencias en la industria musical donde ciertos meses son más favorables para los lanzamientos de nuevos discos o sencillos.
+
+2.  **Estacionalidad de las reproducciones:**
+
+    La mayor cantidad de reproducciones en enero podría estar relacionada con los lanzamientos en el inicio del año, cuando muchas plataformas promocionan nuevas canciones, listas de éxitos o artistas emergentes.
+
+    Mayo podría reflejar un aumento en las reproducciones debido a la proximidad de la temporada de verano, donde la música puede tener una mayor exposición en eventos, festivales y listas de reproducción populares.
+
+3.  **Impacto del mes en la popularidad:**
+
+    Si se observa que ciertos meses tienen menos reproducciones, eso podría implicar que esos períodos no son tan favorables para lanzamientos de canciones (por ejemplo, meses cercanos a vacaciones o fechas no promocionales).
+
+### **Conclusión final:**
+
+El mes de lanzamiento influye directamente en las reproducciones, y puede haber una estacionalidad en el consumo de música, que los artistas pueden utilizar para maximizar el impacto de sus canciones.
+
+```{r}
+# Cargar las bibliotecas necesarias
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+# Cargar el dataset
+spotify_data <- read_csv("Spotify Most Streamed Songs.csv")
+
+# Asegurarse de que los datos sean numéricos
+spotify_data$streams <- as.numeric(spotify_data$streams)
+spotify_data$artist_count <- as.numeric(spotify_data$artist_count)
+
+# Análisis 1: Impacto del número de artistas en las reproducciones
+artist_impact <- spotify_data %>%
+  group_by(artist_count) %>%
+  summarise(
+    avg_streams = mean(streams, na.rm = TRUE),
+    count_songs = n()
+  ) %>%
+  arrange(desc(avg_streams))
+
+# Visualizar los resultados del análisis 1
+ggplot(artist_impact, aes(x = factor(artist_count), y = avg_streams)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Impacto del Número de Artistas en las Reproducciones",
+    x = "Número de Artistas",
+    y = "Promedio de Reproducciones"
+  ) +
+  theme_minimal()
+
+# Análisis 2: Impacto de la duración de las canciones en las reproducciones
+# Crear una columna de duración en minutos si existe la columna "duration_ms"
+if("duration_ms" %in% colnames(spotify_data)) {
+  spotify_data <- spotify_data %>%
+    mutate(duration_minutes = duration_ms / 60000)
+}
+
+# Categorizar las canciones por rango de duración
+spotify_data <- spotify_data %>%
+  mutate(duration_category = case_when(
+    duration_minutes < 2 ~ "< 2 min",
+    duration_minutes >= 2 & duration_minutes < 3 ~ "2-3 min",
+    duration_minutes >= 3 & duration_minutes < 4 ~ "3-4 min",
+    duration_minutes >= 4 & duration_minutes < 5 ~ "4-5 min",
+    TRUE ~ ">= 5 min"
+  ))
+
+# Calcular el promedio de reproducciones por rango de duración
+duration_impact <- spotify_data %>%
+  group_by(duration_category) %>%
+  summarise(
+    avg_streams = mean(streams, na.rm = TRUE),
+    count_songs = n()
+  ) %>%
+  arrange(desc(avg_streams))
+
+# Visualizar los resultados del análisis 2
+ggplot(duration_impact, aes(x = duration_category, y = avg_streams)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Impacto de la Duración de las Canciones en las Reproducciones",
+    x = "Categoría de Duración",
+    y = "Promedio de Reproducciones"
+  ) +
+  theme_minimal()
+
+```
+
+### Conclusiones:
+
+Se puede notar que, en general, las canciones con un solo artista suelen tener más reproducciones. Sin embargo, a medida que aumenta el número de artistas, las reproducciones tienden a disminuir, con la excepción de las canciones que cuentan con 7 artistas, donde se observa un aumento en las reproducciones.
+
+```{r}
 
 ```
