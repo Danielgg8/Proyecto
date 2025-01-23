@@ -5,7 +5,11 @@ title: "Proyecto"
 output: html_notebook
 ---
 
-# Primera Entrega Parcial
+# AB - UNIT 24 - ADVANCED PROGRAMMING FOR DATA ANALYSIS
+
+## Daniel Granda Granda
+
+### Introducción:
 
 El dataset que he elegido es “Spotify Most Streamed Songs” que contiene información sobre las canciones más reproducidas en Spotify. Cada columna representa una canción, con las siguientes características:
 
@@ -47,7 +51,7 @@ Podremos saber si por ejemplo una bailabilidad alta o una energía alta fueran i
 
 Analizar si una canción que está en más listas, también tiene más reproducciones.
 
-# Código
+### Combinación de columnas
 
 Combinamos las columnas de released_year, released_month y released_day en una sola llamada released_date en formato Date.
 
@@ -69,7 +73,9 @@ View(spotify_data)
 
 ```
 
-En este gráfico de barras podemos observar las 10 canciones mas reproducidad de forma clarac con las barras horizontales.
+### Gráfico Barras Top 10 Canciones
+
+En este gráfico de barras podemos observar las 10 canciones mas reproducidad de forma clara con las barras horizontales.
 
 ```{r}
 library(ggplot2)
@@ -99,29 +105,43 @@ ggplot(top_songs, aes(x = reorder(track_name, streams), y = streams)) +
   theme_minimal()
 ```
 
-# Segunda Entrega Parcial
+### Gráfico Top 10 artistas + Histograma + Desviación Estándar
 
-En este análisis podemos observar a los 10 artistas más populares en Spotify, basándonos en el total de reproducciones que tiene sus canciones. Con esta infromación podemos entender las tenedencias en la música actual y qué artistas son los que tienen un mayor impacto.
+En el primer gráfico podemos observar a los 10 artistas más populares en Spotify, basándonos en el total de reproducciones que tiene sus canciones. Con esta infromación podemos entender las tenedencias en la música actual y qué artistas son los que tienen un mayor impacto.
+
+El histograma viene bien para ver la distribución de las reproducciones entre los artistas. Nos permite identificar si la mayoría de los artistas tienen un número similar de reproducciones o si hay algunos con valores mucho más altos o bajos.
+
+Estas estadísticas son clave para entender la distribución de las reproducciones entre los artistas. La desviación estándar es particularmente útil para conocer si las reproducciones están distribuidas de manera uniforme o si hay artistas con mucho más éxito que otros.
+
+Explicación:
+
+La desviación estándar (std_dev_streams) ayuda a comprender la variabilidad en las reproducciones de los artistas.
+
+Una desviación estándar alta indica una gran disparidad en el éxito entre los artistas más populares, mientras que una baja sugiere un éxito más uniforme entre ellos.
+
+**Conclusión**: El código proporciona un análisis descriptivo y visual de los artistas más populares en Spotify, permitiendo una mejor comprensión de las distribuciones de las reproducciones y la identificación de los artistas más exitosos.
 
 ```{r}
 library(dplyr)
 library(ggplot2)
 library(readr)
 
-
+# Cargar los datos
 spotify_data <- read_csv("Spotify Most Streamed Songs.csv")
 
+# Asegurar que la columna 'streams' esté en formato numérico
 spotify_data$streams <- as.numeric(spotify_data$streams)
 
-
+# Análisis de los artistas más populares
 popular_artists <- spotify_data %>%
   group_by(`artist(s)_name`) %>%
   summarise(total_streams = sum(streams, na.rm = TRUE) / 1e6) %>%  
   arrange(desc(total_streams))
 
+# Tomamos los 10 primeros artistas más populares
 top_10_artists <- head(popular_artists, 10)
 
-
+# Gráfico de barras
 ggplot(top_10_artists, aes(x = reorder(`artist(s)_name`, total_streams), y = total_streams)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   labs(
@@ -133,10 +153,38 @@ ggplot(top_10_artists, aes(x = reorder(`artist(s)_name`, total_streams), y = tot
   coord_flip() +
   theme_minimal()
 
+# Análisis estadístico con desviación estándar
+summary_stats <- popular_artists %>%
+  summarise(
+    total_artists = n(),
+    avg_streams = mean(total_streams, na.rm = TRUE),
+    max_streams = max(total_streams, na.rm = TRUE),
+    min_streams = min(total_streams, na.rm = TRUE),
+    std_dev_streams = sd(total_streams, na.rm = TRUE)  # Desviación estándar añadida
+  )
+
+# Mostrar estadísticas
+print(summary_stats)
+
+
+ggplot(popular_artists, aes(x = total_streams)) +
+  geom_histogram(binwidth = 100, fill = "steelblue", color = "black") +
+  labs(
+    title = "Distribución de Reproducciones Totales por Artista",
+    x = "Total de Reproducciones (Millones)",
+    y = "Número de Artistas"
+  ) +
+  theme_minimal()
+
+
 
 ```
 
-En este gráfico podemos obervar un mapa de calor en el que se visualiza la correlación entre las caracterísiticas de audio de las canciones mas reproducidad en Shopify y su número de reproducciones.
+### Gráfico mapa de calor Correlación
+
+En este gráfico podemos obervar un mapa de calor en el que se visualiza la correlación entre las caracterísiticas de audio de las canciones mas reproducidas en Shopify y su número de reproducciones.
+
+La matriz de correlación es una herramienta clave para entender cómo se relacionan las variables entre sí. En este caso, queremos entender cómo las características de audio se correlacionan con el número de reproducciones de las canciones.
 
 ```{r}
 library(dplyr)
@@ -174,6 +222,8 @@ ggplot(correlation_data, aes(Var1, Var2, fill = value)) +
 ### Conclusión:
 
 Podemos observar que las características de audio como la bailabilidad o la energía no tienen una relación fuerte con el éxito de la canción en términos de reproducciones en Spotify
+
+### Análisis Correlación Gráfico de Dispersión
 
 Este análisis muestra cómo el número de listas de reproducción en Apple Music y Spotify se correlaciona con el número de reproducciones de las canciones. Para ello utilizamos dos gráficos de dispersión (Azul para Apple Music) (Verde para Spotify). He decidido utilizar este tipo de gráfico ya que podemos visualizar de manera clara la tendencia que siguen los puntos.
 
@@ -221,6 +271,10 @@ cat("Correlación entre in_apple_playlists y streams:", correlation_apple, "\n")
 ### Conclusión:
 
 En los gráficos se puede observar que cuando las canciones aparecen en más listas, sus reproducciones también aumnetan.
+
+Dado que hay mucha dispersión en los puntos significa que la relación entre lass variables que queremos comparar son débiles, entonces no podríamos confirmar del todo esta relación.
+
+### Gráfico mes de lanazamiento
 
 En este gráfico voy a analizar si el mes de lanzamiento de la canción, influye en el número de reproducciones.
 
@@ -273,24 +327,27 @@ ggplot(monthly_streams, aes(x = month, y = total_streams)) +
 
     Si se observa que ciertos meses tienen menos reproducciones, eso podría implicar que esos períodos no son tan favorables para lanzamientos de canciones (por ejemplo, meses cercanos a vacaciones o fechas no promocionales).
 
-### **Conclusión final:**
+### **Conclusión:**
 
 El mes de lanzamiento influye directamente en las reproducciones, y puede haber una estacionalidad en el consumo de música, que los artistas pueden utilizar para maximizar el impacto de sus canciones.
 
+### Gráfico número de artistas
+
+En este gráfico se puede observar si el número de artistas que participan en una canción depende después en el número de reproducciones de las canciones.
+
 ```{r}
-# Cargar las bibliotecas necesarias
 library(dplyr)
 library(ggplot2)
 library(readr)
 
-# Cargar el dataset
+
 spotify_data <- read_csv("Spotify Most Streamed Songs.csv")
 
-# Asegurarse de que los datos sean numéricos
+
 spotify_data$streams <- as.numeric(spotify_data$streams)
 spotify_data$artist_count <- as.numeric(spotify_data$artist_count)
 
-# Análisis 1: Impacto del número de artistas en las reproducciones
+
 artist_impact <- spotify_data %>%
   group_by(artist_count) %>%
   summarise(
@@ -299,7 +356,7 @@ artist_impact <- spotify_data %>%
   ) %>%
   arrange(desc(avg_streams))
 
-# Visualizar los resultados del análisis 1
+
 ggplot(artist_impact, aes(x = factor(artist_count), y = avg_streams)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   labs(
@@ -308,49 +365,102 @@ ggplot(artist_impact, aes(x = factor(artist_count), y = avg_streams)) +
     y = "Promedio de Reproducciones"
   ) +
   theme_minimal()
-
-# Análisis 2: Impacto de la duración de las canciones en las reproducciones
-# Crear una columna de duración en minutos si existe la columna "duration_ms"
-if("duration_ms" %in% colnames(spotify_data)) {
-  spotify_data <- spotify_data %>%
-    mutate(duration_minutes = duration_ms / 60000)
-}
-
-# Categorizar las canciones por rango de duración
-spotify_data <- spotify_data %>%
-  mutate(duration_category = case_when(
-    duration_minutes < 2 ~ "< 2 min",
-    duration_minutes >= 2 & duration_minutes < 3 ~ "2-3 min",
-    duration_minutes >= 3 & duration_minutes < 4 ~ "3-4 min",
-    duration_minutes >= 4 & duration_minutes < 5 ~ "4-5 min",
-    TRUE ~ ">= 5 min"
-  ))
-
-# Calcular el promedio de reproducciones por rango de duración
-duration_impact <- spotify_data %>%
-  group_by(duration_category) %>%
-  summarise(
-    avg_streams = mean(streams, na.rm = TRUE),
-    count_songs = n()
-  ) %>%
-  arrange(desc(avg_streams))
-
-# Visualizar los resultados del análisis 2
-ggplot(duration_impact, aes(x = duration_category, y = avg_streams)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(
-    title = "Impacto de la Duración de las Canciones en las Reproducciones",
-    x = "Categoría de Duración",
-    y = "Promedio de Reproducciones"
-  ) +
-  theme_minimal()
-
 ```
 
 ### Conclusiones:
 
 Se puede notar que, en general, las canciones con un solo artista suelen tener más reproducciones. Sin embargo, a medida que aumenta el número de artistas, las reproducciones tienden a disminuir, con la excepción de las canciones que cuentan con 7 artistas, donde se observa un aumento en las reproducciones.
 
+### Análisis descriptivo
+
+### Resumen estadístico
+
+Este código realiza un análisis descriptivo del dataset `spotify_data`, calculando el total de canciones, el promedio, máximo y mínimo de las reproducciones. Los resultados se muestran en la consola para dar una visión general de los datos.
+
+```{r}
+library(dplyr)
+
+
+summary_stats <- spotify_data %>%
+  summarise(
+    total_songs = n(),
+    avg_streams = mean(streams, na.rm = TRUE),
+    max_streams = max(streams, na.rm = TRUE),
+    min_streams = min(streams, na.rm = TRUE)
+  )
+
+print("Resumen descriptivo:")
+print(summary_stats)
+```
+
+### Modelos predictivos
+
+### Dividir en conjunto de entrenamiento y prueba
+
+-   **Residuos**: Diferencia entre valores reales y predichos. Los negativos indican que el modelo sobreestimó.
+
+-   **Valor p**: Evalúa si una variable tiene un efecto real. Un valor p pequeño indica alta significancia.
+
+-   **Estadístico t**: Mide la fuerza de la relación entre variables. Valores altos indican relaciones fuertes.
+
+-   **Asteriscos**: Indican niveles de significancia. Más asteriscos = más confianza en la variable.
+
+-   **R²**: Porcentaje de variabilidad explicado por el modelo (62.48% aquí).
+
+-   **F-statistic**: Evalúa si el modelo completo es significativo; un valor alto y p pequeño confirman su relevancia.
+
 ```{r}
 
+set.seed(123)
+train_indices <- sample(1:nrow(spotify_data), size = 0.8 * nrow(spotify_data))
+train_data <- spotify_data[train_indices, ]
+test_data <- spotify_data[-train_indices, ]
+
+## Modelo de regresión lineal
+model <- lm(streams ~ in_spotify_playlists, data = train_data)
+summary(model)
+
+## Predicción en el conjunto de prueba
+test_data$predicted_streams <- predict(model, test_data)
 ```
+
+### Visualización del modelo
+
+### Visualización de predicciones
+
+```{r}
+library(ggplot2)
+
+r_squared <- summary(model)$r.squared
+mse <- mean((test_data$streams - test_data$predicted_streams)^2)
+
+cat("R² del modelo:", round(r_squared, 2), "\n")
+cat("Error cuadrático medio (MSE):", round(mse, 2), "\n")
+
+# Gráfico
+ggplot(test_data, aes(x = in_spotify_playlists, y = streams)) +
+  geom_point(alpha = 0.6, color = "blue") +
+  geom_line(aes(y = predicted_streams), color = "red") +
+  labs(
+    title = "Predicción de Streams en función de Listas de Reproducción",
+    x = "Número de Listas de Reproducción",
+    y = "Reproducciones"
+  ) +
+  theme_minimal()
+```
+
+# 8. Plan de mejoras
+
+# Ciclo de vida a 3, 6 y 12 meses
+
+"Plan de mejoras:- 3 meses: Optimización del manejo de datos faltantes y generación de nuevos gráficos interactivos
+
+Plan de mejoras- 6 meses: Introducción de modelos predictivos avanzados como árboles de decisión o random forest
+
+Plan de mejoras- 12 meses: Implementación de un sistema automatizado para análisis continuo del dataset y actualizaciones en tiempo real.
+
+### Conclusión final:
+
+Este análisis ayudó a entender los factores detrás del éxito de las canciones más reproducidas en Spotify. Aunque las características de audio no mostraron una fuerte correlación con las reproducciones, sí se observó que el número de listas de reproducción tiene un impacto positivo, aunque moderado. También se identificaron patrones estacionales, posiblemente ligados al marketing.
+
+El modelo de regresión tuvo limitaciones, evidenciando la necesidad de métodos más avanzados para predecir tendencias. Este proyecto permitió aplicar análisis de datos y reflexionar sobre la complejidad del éxito musical, abriendo camino a futuras investigaciones.
