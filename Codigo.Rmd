@@ -56,7 +56,6 @@ Analizar si una canción que está en más listas, también tiene más reproducc
 Combinamos las columnas de released_year, released_month y released_day en una sola llamada released_date en formato Date.
 
 ```{r}
-install.packages("readr")
 library(dplyr)
 library(readr)
 
@@ -274,7 +273,7 @@ En los gráficos se puede observar que cuando las canciones aparecen en más lis
 
 Dado que hay mucha dispersión en los puntos significa que la relación entre lass variables que queremos comparar son débiles, entonces no podríamos confirmar del todo esta relación.
 
-### Gráfico mes de lanazamiento
+### Gráfico mes de lanzamiento
 
 En este gráfico voy a analizar si el mes de lanzamiento de la canción, influye en el número de reproducciones.
 
@@ -375,22 +374,24 @@ Se puede notar que, en general, las canciones con un solo artista suelen tener m
 
 ### Resumen estadístico
 
-Este código realiza un análisis descriptivo del dataset `spotify_data`, calculando el total de canciones, el promedio, máximo y mínimo de las reproducciones. Los resultados se muestran en la consola para dar una visión general de los datos.
+Este código realiza un análisis descriptivo del dataset `spotify_data`, calculando el total de canciones, el promedio, máximo y mínimo de las reproducciones.
 
 ```{r}
 library(dplyr)
 
-
-summary_stats <- spotify_data %>%
+# Análisis estadístico con desviación estándar
+summary_stats <- popular_artists %>%
   summarise(
-    total_songs = n(),
-    avg_streams = mean(streams, na.rm = TRUE),
-    max_streams = max(streams, na.rm = TRUE),
-    min_streams = min(streams, na.rm = TRUE)
+    total_artists = n(),
+    avg_streams = mean(total_streams, na.rm = TRUE),
+    max_streams = max(total_streams, na.rm = TRUE),
+    min_streams = min(total_streams, na.rm = TRUE),
+    std_dev_streams = sd(total_streams, na.rm = TRUE)
   )
 
-print("Resumen descriptivo:")
+# Mostrar estadísticas
 print(summary_stats)
+
 ```
 
 ### Modelos predictivos
@@ -410,7 +411,6 @@ print(summary_stats)
 -   **F-statistic**: Evalúa si el modelo completo es significativo; un valor alto y p pequeño confirman su relevancia.
 
 ```{r}
-
 set.seed(123)
 train_indices <- sample(1:nrow(spotify_data), size = 0.8 * nrow(spotify_data))
 train_data <- spotify_data[train_indices, ]
@@ -427,6 +427,10 @@ test_data$predicted_streams <- predict(model, test_data)
 ### Visualización del modelo
 
 ### Visualización de predicciones
+
+Hay una variabilidad significativa en el número de streams para un determinado número de listas de reproducción, como lo indican los puntos de datos dispersos alrededor de la línea de tendencia.
+
+La línea de tendencia sugiere una relación lineal general, pero probablemente haya otros factores más allá del número de listas de reproducción que influyan en el número de streams.
 
 ```{r}
 library(ggplot2)
